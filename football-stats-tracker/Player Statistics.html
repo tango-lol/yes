@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Player Statistics</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .charts {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        canvas {
+            width: 150px !important;
+            height: 150px !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Player Statistics</h1>
+
+        <!-- Input Minutes Played -->
+        <div class="input-group">
+            <label for="minutes-played-input">Minutes Played:</label>
+            <input type="number" id="minutes-played-input" value="75" min="0" />
+            <button onclick="updateMinutesPlayed()">Update</button>
+        </div>
+
+        <!-- Stats Section -->
+        <div class="stats">
+            <!-- Stats Group -->
+            <div class="stat-group">
+                <h2>Touches: <span id="touches">0</span></h2>
+                <button onclick="updateStat('touches', -1)">-</button>
+                <button onclick="updateStat('touches', 1)">+</button>
+            </div>
+            <div class="stat-group">
+                <h2>Attempted Passes: <span id="attemptedPasses">0</span></h2>
+                <button onclick="updateStat('attemptedPasses', -1)">-</button>
+                <button onclick="updateStat('attemptedPasses', 1)">+</button>
+            </div>
+            <div class="stat-group">
+                <h2>Successful Passes: <span id="successfulPasses">0</span></h2>
+                <button onclick="updateStat('successfulPasses', -1)">-</button>
+                <button onclick="updateStat('successfulPasses', 1)">+</button>
+            </div>
+            <div class="stat-group">
+                <h2>Failed Passes: <span id="failedPasses">0</span></h2>
+                <button onclick="updateStat('failedPasses', -1)">-</button>
+                <button onclick="updateStat('failedPasses', 1)">+</button>
+            </div>
+            <div class="stat-group">
+                <h2>Shots: <span id="shots">0</span></h2>
+                <button onclick="updateStat('shots', -1)">-</button>
+                <button onclick="updateStat('shots', 1)">+</button>
+            </div>
+            <div class="stat-group">
+                <h2>Shots on Target: <span id="shotsOnTarget">0</span></h2>
+                <button onclick="updateStat('shotsOnTarget', -1)">-</button>
+                <button onclick="updateStat('shotsOnTarget', 1)">+</button>
+            </div>
+            <div class="stat-group">
+                <h2>Shots off Target: <span id="shotsOffTarget">0</span></h2>
+                <button onclick="updateStat('shotsOffTarget', -1)">-</button>
+                <button onclick="updateStat('shotsOffTarget', 1)">+</button>
+            </div>
+            <div class="stat-group">
+                <h2>Successful Dribbles: <span id="successfulDribbles">0</span></h2>
+                <button onclick="updateStat('successfulDribbles', -1)">-</button>
+                <button onclick="updateStat('successfulDribbles', 1)">+</button>
+            </div>
+            <div class="stat-group">
+                <h2>Unsuccessful Dribbles: <span id="unsuccessfulDribbles">0</span></h2>
+                <button onclick="updateStat('unsuccessfulDribbles', -1)">-</button>
+                <button onclick="updateStat('unsuccessfulDribbles', 1)">+</button>
+            </div>
+            <div class="stat-group">
+                <h2>Goals: <span id="goals">0</span></h2>
+                <button onclick="updateStat('goals', -1)">-</button>
+                <button onclick="updateStat('goals', 1)">+</button>
+            </div>
+            <div class="stat-group">
+                <h2>Assists: <span id="assists">0</span></h2>
+                <button onclick="updateStat('assists', -1)">-</button>
+                <button onclick="updateStat('assists', 1)">+</button>
+            </div>
+            <div class="stat-group">
+                <h2>Headers: <span id="headers">0</span></h2>
+                <button onclick="updateStat('headers', -1)">-</button>
+                <button onclick="updateStat('headers', 1)">+</button>
+            </div>
+            <div class="stat-group">
+                <h2>Headers on Target: <span id="headersOnTarget">0</span></h2>
+                <button onclick="updateStat('headersOnTarget', -1)">-</button>
+                <button onclick="updateStat('headersOnTarget', 1)">+</button>
+            </div>
+            <div class="stat-group">
+                <h2>Headers off Target: <span id="headersOffTarget">0</span></h2>
+                <button onclick="updateStat('headersOffTarget', -1)">-</button>
+                <button onclick="updateStat('headersOffTarget', 1)">+</button>
+            </div>
+            <div class="stat-group">
+                <h2>Fouls: <span id="fouls">0</span></h2>
+                <button onclick="updateStat('fouls', -1)">-</button>
+                <button onclick="updateStat('fouls', 1)">+</button>
+            </div>
+            <div class="stat-group">
+                <h2>Clearances: <span id="clearances">0</span></h2>
+                <button onclick="updateStat('clearances', -1)">-</button>
+                <button onclick="updateStat('clearances', 1)">+</button>
+            </div>
+            <div class="stat-group">
+                <h2>Clearance Headers: <span id="clearanceHeaders">0</span></h2>
+                <button onclick="updateStat('clearanceHeaders', -1)">-</button>
+                <button onclick="updateStat('clearanceHeaders', 1)">+</button>
+            </div>
+            <div class="stat-group">
+                <h2>Interceptions: <span id="interceptions">0</span></h2>
+                <button onclick="updateStat('interceptions', -1)">-</button>
+                <button onclick="updateStat('interceptions', 1)">+</button>
+            </div>
+            <div class="stat-group">
+                <h2>Key Passes: <span id="keyPasses">0</span></h2>
+                <button onclick="updateStat('keyPasses', -1)">-</button>
+                <button onclick="updateStat('keyPasses', 1)">+</button>
+            </div>
+            <div class="stat-group">
+                <h2>Crosses: <span id="crosses">0</span></h2>
+                <button onclick="updateStat('crosses', -1)">-</button>
+                <button onclick="updateStat('crosses', 1)">+</button>
+            </div>
+            <div class="stat-group">
+                <h2>Dribbling Success Rate: <span id="dribble-success-rate">0%</span></h2>
+            </div>
+            <div class="stat-group">
+                <h2>Pass Accuracy: <span id="pass-accuracy">0%</span></h2>
+            </div>
+        </div>
+
+        <!-- Calculations and Charts -->
+        <div class="calculations">
+            <h2>Stats Summary</h2>
+            <p>Shot Accuracy: <span id="shot-accuracy">0%</span></p>
+            <p>Pass Completion Rate: <span id="pass-completion-rate">0%</span></p>
+            <p>Dribble Success Rate: <span id="dribble-success-rate">0%</span></p>
+            <p>Header Accuracy: <span id="header-accuracy">0%</span></p>
+            <p>Goal Conversion Rate: <span id="goal-conversion-rate">0%</span></p> <!-- Added line -->
+        </div>
+
+        <!-- Pie Charts -->
+        <div class="charts">
+            <h2>Shot Distribution</h2>
+            <canvas id="shot-chart"></canvas>
+            <h2>Pass Completion</h2>
+            <canvas id="pass-chart"></canvas>
+            <h2>Header Distribution</h2>
+            <canvas id="header-chart"></canvas>
+            <h2>Shot Accuracy</h2>
+            <canvas id="shot-accuracy-chart"></canvas>
+            <h2>Pass Completion Rate</h2>
+            <canvas id="pass-completion-rate-chart"></canvas>
+            <h2>Dribble Success Rate</h2>
+            <canvas id="dribble-success-rate-chart"></canvas>
+            <h2>Header Accuracy</h2>
+            <canvas id="header-accuracy-chart"></canvas>
+            <h2>Goal Conversion Rate</h2>
+            <canvas id="goal-conversion-rate-chart"></canvas>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
